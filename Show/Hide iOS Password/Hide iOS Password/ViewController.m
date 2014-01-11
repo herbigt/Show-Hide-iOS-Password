@@ -17,7 +17,31 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    
+    CGSize hideShowSize = [@"SHOWX" sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f]}];
+    UIButton *hideShow = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, hideShowSize.width, self.password.frame.size.height)];
+    [hideShow.titleLabel setFont:[UIFont systemFontOfSize:14.0f]];
+    [hideShow setTitle:@"HIDE" forState:UIControlStateNormal];
+    [hideShow setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    self.password.rightView = hideShow;
+    self.password.rightViewMode = UITextFieldViewModeAlways;
+    [hideShow addTarget:self action:@selector(hideShow:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)hideShow:(id)sender
+{
+    UIButton *hideShow = (UIButton *)self.password.rightView;
+    if (!self.password.secureTextEntry)
+    {
+        self.password.secureTextEntry = YES;
+        [hideShow setTitle:@"SHOW" forState:UIControlStateNormal];
+    }
+    else
+    {
+        self.password.secureTextEntry = NO;
+        [hideShow setTitle:@"HIDE" forState:UIControlStateNormal];
+    }
+    [self.password becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning
